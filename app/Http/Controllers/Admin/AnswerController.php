@@ -12,22 +12,20 @@ use Illuminate\Support\Str;
 
 class AnswerController extends Controller
 {
-    public $users;
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('isAdmin');
-        $this->middleware(function ($request, $next) {
-            $this->users = Auth::user();
-            return $next($request);
-        });
-    }
+    // public $users;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    //     $this->middleware('isAdmin');
+    //     $this->middleware(function ($request, $next) {
+    //         $this->users = Auth::user();
+    //         return $next($request);
+    //     });
+    // }
 
     public function index()
     {
         $answer = Answer::with('qustions.boards.subjects.backgrounds')->orderBy('id', 'asc')->get();
-
-        // dd($qustion);
         return view('admin.answer.index', compact('answer'));
     }
 
@@ -43,7 +41,6 @@ class AnswerController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|unique:qustions,slug',
-            // 'slug' => 'required|unique:qustions,slug',
             'qus_id' => 'required|integer',
 
 

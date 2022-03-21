@@ -8,7 +8,7 @@ class Qustion extends Model
 {
 
     protected $fillable = [
-        'name', 'slug', 'status', 'approve', 'bg_id', 'sub_id'
+        'name', 'slug', 'status', 'approve', 'bd_id', 'sub_id'
     ];
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Answer;
 use App\Board;
 use App\Http\Controllers\Controller;
 use App\Qustion;
@@ -27,9 +28,9 @@ class QustionController extends Controller
 
     public function index()
     {
-        $qustions = Qustion::with('boards.subjects.backgrounds')->orderBy('id', 'asc')->get();
+        $qustions = Qustion::with('boards' , 'subjects' ,'subjects.backgrounds')->orderBy('id', 'asc')->get();
 
-        // dd($qustion);
+
         return view('admin.qustion.index', compact('qustions'));
     }
 
@@ -43,6 +44,7 @@ class QustionController extends Controller
     public function store(Request $request)
     {
 
+        $data = $request->all();
         $validatedData = $request->validate([
             'name' => 'required|unique:qustions,slug',
             // 'slug' => 'required|unique:qustions,slug',
@@ -52,22 +54,27 @@ class QustionController extends Controller
 
         ]);
 
-        $qustions = new Qustion();
-        $qustions->name = $request->name . "?";
-        $qustions->sub_id = $request->sub_id;
-        $qustions->bd_id = $request->bd_id;
         $str = strtolower($request->name);
         $strrmlower = strtolower(Str::random());
         $strdash = preg_replace('/\s+/', '-', $str);
-        $qustions->slug = $strdash . '-' . $strrmlower;
-        // $str = strtolower($request->slug,);
-        // $qustions->slug = preg_replace('/\s+/', '-', $str);
-        $qustions->save();
 
+        $question = Qustion::create([
+            'name' => $request->name . "?",
+            'sub_id' => $request->sub_id ,
+            'bd_id' => $request->bd_id ,
+            'slug' => $strdash . '-' . $strrmlower,
+        ]);
 
+        foreach($request->names as $key => $value){
+           $answer =  Answer::create([
+                'qus_id' => $question->id,
+                'name' => $value,
+                'points' => $data['point'][$key],
+            ]);
+        }
 
         $notification = array(
-            'messege' => 'Qustion Insert successfully!',
+            'messege' => 'Qustion Insert Answer successfully!',
             'alert-type' => 'success'
         );
         return Redirect()->route('qustions.all')->with($notification);
@@ -147,7 +154,7 @@ class QustionController extends Controller
         $subject = Subject::all();
         $boards = Board::all();
         $ids =  Crypt::decrypt($id);
-        $qustions = Qustion::with('boards.subjects.backgrounds')->where('id', $ids)->first();
+        $qustions = Qustion::with(['boards.subjects.backgrounds', 'answers'])->where('id', $ids)->first();
         return view('admin.qustion.view', compact('qustions', 'subject', 'boards'));
     }
 

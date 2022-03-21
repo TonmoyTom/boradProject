@@ -62,7 +62,7 @@
                 margin-bottom: 30px;
             }
 
-   
+
         </style>
     </head>
     <body>
@@ -71,12 +71,12 @@
                 <div class="top-right links">
                     @auth
 
-                    @if (auth()->user()->isAdmin == 1) 
+                    @if (auth()->user()->isAdmin == 1)
                         <a href="{{ url('/admin/home') }}">Home</a>
                     @else
                         <a href="{{ url('/home') }}">Home</a>
                     @endif
-                       
+
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -92,7 +92,7 @@
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-header">Test</div>
-            
+
                             <div class="card-body">
                                 @if(session('status'))
                                     <div class="row">
@@ -103,19 +103,19 @@
                                         </div>
                                     </div>
                                 @endif
-            
-                             
-                                  
-                                   
+
+
+
+
                                         <div class="card mb-3">
-                                            
+
                                             <div class="card-header">{{$boards->subjects->name}}</div>
-                            
+
                                             <div class="card-body">
                                                 @foreach($boards->qustions as $item)
                                                     <div class="card @if(!$loop->last)mb-3 @endif">
                                                         <div class="card-header">{{ $item->name }}</div>
-                                    
+
                                                         <div class="card-body">
                                                             <input type="hidden" name="{{ $item->id }}" value="">
                                                             @foreach($item->answers as $option)
@@ -125,23 +125,17 @@
                                                                         {{ $option->name }}
                                                                     </label>
                                                                 </div>
-                                                            
-            
-                                                            @if($errors->has("$item->id"))
-                                                                <span style="margin-top: .25rem; font-size: 80%; color: #e3342f;" role="alert">
-                                                                    <strong>{{ $errors->first("questions.$question->id") }}</strong>
-                                                                </span>
-                                                            @endif
+                                                                
                                                         </div>
                                                         @endforeach
                                                     </div>
                                             </div>
                                             @endforeach
                                         </div>
-                                   
-            
-                                    
-                            
+
+
+
+
                             </div>
                         </div>
                     </div>

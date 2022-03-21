@@ -68,10 +68,27 @@
                             {{ $upper}}
                         </td>
                     </tr>
-                    
-
-                    
                 </tbody>
+            </table>
+
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>
+                        Answer
+                      </th>
+                </tr>
+                @foreach ($qustions->answers as $answer)
+                <tr>
+                <td>
+                    {{ $answer->name}} <i class= "{{ ($answer->points == 1) ?  'fa-solid fa-check' : '' }}"></i>
+                </td>
+                <td>
+                    <a class="btn btn-xs btn-primary" href="{{url('admin/qustions/view/'.Crypt::encrypt($answer->id))}} ">
+                        edit
+                    </a>
+                </td>
+            </tr>
+                @endforeach
             </table>
             {{-- <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.categories.index') }}">

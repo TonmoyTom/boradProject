@@ -23,6 +23,7 @@
                 <thead>
                     <tr>
                       <th scope="col">Id</th>
+                      <th scope="col">Background</th>
                       <th scope="col">Name</th>
                       <th scope="col" >Subject</th>
                       <th scope="col" >Class</th>
@@ -32,19 +33,18 @@
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
-      
+
                   <tbody>
                       @foreach ($qustions as $item)
 
-                        @php
-                            $upper = strtoupper($item->subjects->class);
-                        @endphp
+
                         <tr>
                           <th scope="row">{{$loop->index*1}}</th>
-                          <td>{{$item->name}}</td>                        
-                          <td>{{$item->subjects->slug}}</td> 
-                          <td>{{$upper}}</td>     
-                          <td>{{$item->boards->year}}</td>                           
+                          <td>{{$item->subjects->backgrounds->name}}</td>
+                          <td>{{$item->name}}</td>
+                          <td>{{$item->subjects->slug}}</td>
+                          <td>{{strtoupper($item->subjects->class)}}</td>
+                          <td>{{$item->boards->year}}</td>
                           <td>
                             @if($item->status == 1)
                             <a href="javascript:void(0)" class="updatesqustionsstatus" id="qustions-{{$item->id }}"
@@ -67,36 +67,36 @@
                             <a class="btn btn-xs btn-primary" href="{{url('admin/qustions/view/'.Crypt::encrypt($item->id))}} ">
                                 View
                             </a>
-                            
+
                             <a class="btn btn-xs btn-info" href="{{url('admin/qustions/edit/'.Crypt::encrypt($item->id))}} ">
                                 Edit
                             </a>
-                           
-                            
+
+
                             <form action="{{url('admin/qustions/delete/'.Crypt::encrypt($item->id))}}" method="POST" style="display: inline-block;">
                                 @csrf
-                                    <button type="submit"  data-name="{{($item->slug)}}" class="btn btn-danger delete-confirm"> 
-                            
+                                    <button type="submit"  data-name="{{($item->slug)}}" class="btn btn-danger delete-confirm">
+
                                     Delete
-                                    </button>  
+                                    </button>
                             </form>
-                            
+
 
 
                          </td>
                         </tr>
                       @endforeach
-                   
-                  
+
+
                   </tbody>
             </table>
 
-           
+
         </div>
-        
+
     </div>
     <div class="form-group">
-            
+
         <a class="btn btn-info" href="{{ route('admin.home') }}">
            Back
         </a>

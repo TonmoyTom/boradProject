@@ -19,8 +19,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.css" integrity="sha512-YdYyWQf8AS4WSB0WWdc3FbQ3Ypdm0QCWD2k4hgfqbQbRCJBEgX0iAegkl2S1Evma5ImaVXLBeUkIlP6hQ1eYKQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" type="text/css" href="{{asset('backend/js/select.dataTables.min.css')}}">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
- 
-  
+
+
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{{asset('backend/css/vertical-layout-light/style.css')}}">
@@ -83,34 +83,34 @@
                 <i class="ti-settings text-primary"></i>
                 Profile
               </a>
-            
-               
-                
-               
-                   
+
+
+
+
+
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();"> <i class="ti-power-off text-primary"></i>
                         {{ __('Logout') }}
                     </a>
-    
+
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-               
-             
+
+
             </div>
           </li>
-          
-          
+
+
         </ul>
-        
+
       </div>
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
-   
+
       <!-- partial -->
       <!-- partial:partials/_sidebar.html -->
      @include('layouts.sidebar')
@@ -119,7 +119,7 @@
        @yield('content')
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
-       
+
         <!-- partial -->
       </div>
       <!-- main-panel ends -->
@@ -157,6 +157,8 @@
   <script src="{{asset('backend/js/todolist.js')}}"></script>
   <script src="{{asset('backend/js/script.js')}}"></script>
   @yield('scripts')
+  @stack('script')
+
   <!-- endinject -->
   <!-- Custom js for this page-->
   <script src="{{asset('backend/js/dashboard.js')}}"></script>
@@ -180,8 +182,8 @@
       }
     @endif
  </script>
-<script>  
-  
+<script>
+
 $('.delete-confirm').click(function(event) {
 var form =  $(this).closest("form");
 var name = $(this).data("name");
