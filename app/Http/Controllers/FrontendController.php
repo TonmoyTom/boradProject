@@ -67,10 +67,6 @@ class FrontendController extends Controller
         $board = $subjects->boards->groupBy(['name', 'year']);
 
 
-        // $subject = Subject::all();
-
-        // dd($board);
-
         return view('boards', compact('board'));
     }
 
