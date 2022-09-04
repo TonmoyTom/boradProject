@@ -11,16 +11,6 @@ use Illuminate\Support\Facades\Crypt;
 
 class SubjectController extends Controller
 {
-    public $users;
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('isAdmin');
-        $this->middleware(function ($request, $next) {
-            $this->users = Auth::user();
-            return $next($request);
-        });
-    }
 
     public function index()
     {
@@ -40,8 +30,7 @@ class SubjectController extends Controller
     {
 
         $validatedData = $request->validate([
-            'name' => 'required|',
-            'slug' => 'required|unique:backgrounds,slug',
+            'name' => 'required|unique:backgrounds,name',
             'bg_id' => 'required|integer',
             'class' => 'required',
 
@@ -51,9 +40,10 @@ class SubjectController extends Controller
         $subject = new Subject();
         $subject->name = $request->name;
         $subject->bg_id = $request->bg_id;
+        $subject->status = 1;
         $cls = strtolower($request->class);
         $subject->class = $cls;
-        $str = strtolower($request->slug);
+        $str = strtolower($request->name);
         $subject->groupname = strtok($request->name, " ");
         $subject->slug = preg_replace('/\s+/', '-', $str);
         $subject->save();
@@ -107,12 +97,9 @@ class SubjectController extends Controller
 
         $ids =  Crypt::decrypt($id);
         $validatedData = $request->validate([
-            'name' => 'required|',
-            'slug' => "required|unique:subjects,slug, $ids",
+            'name' =>"required|unique:subjects,name, $ids",
             'bg_id' => 'required|',
             'class' => 'required',
-
-
         ]);
 
 

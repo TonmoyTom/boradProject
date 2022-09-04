@@ -14,31 +14,17 @@ use Illuminate\Support\Str;
 
 class QustionController extends Controller
 {
-    public $users;
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('isAdmin');
-        $this->middleware(function ($request, $next) {
-            $this->users = Auth::user();
-            return $next($request);
-        });
-    }
-
 
     public function index()
     {
         $qustions = Qustion::with('boards' , 'subjects' ,'subjects.backgrounds')->orderBy('id', 'asc')->get();
-
-
         return view('admin.qustion.index', compact('qustions'));
     }
 
     public function create()
     {
-        $subject = Subject::all();
-        $boards = Board::all();
-        return view('admin.qustion.create', compact('subject', 'boards'));
+        $boards = Board::with('subjects')->get();
+        return view('admin.qustion.create', compact( 'boards'));
     }
 
     public function store(Request $request)
@@ -47,8 +33,6 @@ class QustionController extends Controller
         $data = $request->all();
         $validatedData = $request->validate([
             'name' => 'required|unique:qustions,slug',
-            // 'slug' => 'required|unique:qustions,slug',
-            'sub_id' => 'required|integer',
             'bd_id' => 'required|integer',
 
 

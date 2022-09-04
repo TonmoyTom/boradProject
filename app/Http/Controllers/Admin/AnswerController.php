@@ -42,9 +42,6 @@ class AnswerController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|unique:qustions,slug',
             'qus_id' => 'required|integer',
-
-
-
         ]);
 
         $answer = new Answer();

@@ -19,7 +19,6 @@ class isAdmin
             if (auth()->user()->isAdmin == 1) {
                 return $next($request);
             }
-
             return redirect('home')->with('error', "Only admin can access!");
         }
         abort(404);  // for other user throw 404 error

@@ -40,7 +40,7 @@
                 <tbody>
                     @foreach($allUser as $users)
                     <tr data-entry-id="{{ $users->id }}">
-                        
+
                         <td>
                             {{ $users->id ?? '' }}
                         </td>
@@ -51,17 +51,15 @@
                             {{ $users->email ?? '' }}
                         </td>
                         <td>
-
                             @if ($users->isAdmin == 1)
                                 @foreach($users->roles as $parm)
                                 <span class="badge badge-primary">{{$parm->name}}</span>
                                 @endforeach
-
                             @else
                             <span class="badge badge-primary">user</span>
                             @endif
-                            
-                           
+
+
                         </td>
                         <td>
                             @if(Auth::user()->can('users.view'))
@@ -70,7 +68,7 @@
                             </a>
                             @else
                                 <p>Not Access</p>
-                            @endif 
+                            @endif
 
 
                             @if(Auth::user()->can('users.edit'))
@@ -79,18 +77,18 @@
                             </a>
                             @else
                                 <p>Not Access</p>
-                            @endif 
+                            @endif
                             @if(Auth::user()->can('users.delete'))
                             <form action="{{url('admin/users/delete/'.Crypt::encrypt($users->id))}}" method="POST"  style="display: inline-block;">
                                  @csrf
-                                <button type="submit" id="delete" data-name="{{$users->name}}" class="btn btn-danger delete-confirm"> 
+                                <button type="submit" id="delete" data-name="{{$users->name}}" class="btn btn-danger delete-confirm">
                                   <i class="fas fa-trash-alt btn-icon-prepend"></i>
                                    Delete
-                                </button>   
+                                </button>
                             </form>
                             @else
                                 <p>Not Access</p>
-                            @endif 
+                            @endif
 
 
                         </td>
@@ -100,12 +98,12 @@
                 </tbody>
             </table>
 
-           
+
         </div>
-        
+
     </div>
     <div class="form-group">
-            
+
         <a class="btn btn-info" href="{{ route('admin.home') }}">
            Back
         </a>

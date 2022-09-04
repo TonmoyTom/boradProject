@@ -10,16 +10,7 @@ use Illuminate\Support\Facades\Crypt;
 
 class BackgroundController extends Controller
 {
-    public $users;
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('isAdmin');
-        $this->middleware(function ($request, $next) {
-            $this->users = Auth::user();
-            return $next($request);
-        });
-    }
+
 
     public function index()
     {
@@ -38,18 +29,15 @@ class BackgroundController extends Controller
     {
 
         $validatedData = $request->validate([
-            'name' => 'required|',
-            'slug' => 'required|unique:backgrounds,slug',
-
+            'name' => "required|unique:backgrounds,name",
         ]);
 
         $backgrounds = new Background();
         $backgrounds->name = $request->name;
-        $str = strtolower($request->slug);
+        $backgrounds->status = 1;
+        $str = strtolower($request->name);
         $backgrounds->slug = preg_replace('/\s+/', '-', $str);
         $backgrounds->save();
-
-
 
         $notification = array(
             'messege' => 'backgrounds Insert successfully!',
@@ -83,18 +71,15 @@ class BackgroundController extends Controller
     public function update(Request $request, $id)
     {
 
-
         $ids =  Crypt::decrypt($id);
         $validatedData = $request->validate([
-            'name' => 'required|',
-            'slug' => "required|unique:backgrounds,slug, $ids",
-
+            'name' => "required|unique:backgrounds,name, $ids",
         ]);
 
 
         $backgrounds = Background::findOrFail($ids);
         $backgrounds->link = $request->link;
-        $str = strtolower($request->slug);
+        $str = strtolower($request->link);
         $backgrounds->slug = preg_replace('/\s+/', '-', $str);
         $backgrounds->save();
 
@@ -116,10 +101,6 @@ class BackgroundController extends Controller
 
     public function delete($id)
     {
-
-
-
-
         $ids =  Crypt::decrypt($id);
         $backgrounds = Background::findOrFail($ids);
         if (!is_null($backgrounds)) {

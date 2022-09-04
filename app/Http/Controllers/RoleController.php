@@ -12,50 +12,30 @@ use Illuminate\Support\Facades\Crypt;
 class RoleController extends Controller
 {
 
-    public $users;
-    public function __construct()
-    {
-
-        $this->middleware('auth');
-        $this->middleware('isAdmin');
-        $this->middleware(function ($request, $next) {
-            $this->users = Auth::user();
-            return $next($request);
-        });
-    }
 
     public function index()
     {
 
-        if (is_null($this->users) || !$this->users->can('role.all')) {
-            abort(403, 'Not Access');
-        }
-        $roles =  Role::orderBy('id', 'asc')->get();
-
-
+        $this->checkPermission("role.all");
+        $roles =  Role::whereKeyNot(1)->orderBy('id', 'asc')->get();
         return view('admin.role.index', compact('roles'));
     }
 
     public function create()
     {
-        if (is_null($this->users) || !$this->users->can('role.create')) {
-            abort(403, 'Not Access');
-        }
 
+
+        $this->checkPermission("role.create");
         $permission =  Permission::all();
         $premission_groups = User::getpermissiongroup();
-
-
         return view('admin.role.create', compact('permission', 'premission_groups'));
     }
 
     public function store(Request $request)
     {
 
-        if (is_null($this->users) || !$this->users->can('role.store')) {
-            abort(403, 'Not Access');
-        }
 
+        $this->checkPermission("role.store");
 
         $rules = [
             'name' => 'required|max:100|unique:roles',
@@ -86,10 +66,8 @@ class RoleController extends Controller
 
     public function edit($id)
     {
-        if (is_null($this->users) || !$this->users->can('role.edit')) {
-            abort(403, 'Not Access');
-        }
 
+        $this->checkPermission("role.edit");
         $ids = Crypt::decrypt($id);
 
         $roles = Role::findOrFail($ids);
@@ -97,16 +75,13 @@ class RoleController extends Controller
         $premission_groups = User::getpermissiongroup();
 
         $permission =  Permission::all();
-        // dd($premissions);
-
         return view('admin.role.edit', compact('permission', 'roles', 'premission_groups'));
     }
 
     public function update(Request $request, $id)
     {
-        if (is_null($this->users) || !$this->users->can('role.update')) {
-            abort(403, 'Not Access');
-        }
+
+        $this->checkPermission("role.update");
         $ids = Crypt::decrypt($id);
         $rules = [
             'name' => 'required|max:100|unique:roles,name,' . $ids,
@@ -138,26 +113,11 @@ class RoleController extends Controller
 
     public function delete($id)
     {
-
-        if (is_null($this->users) || !$this->users->can('role.all')) {
-            abort(403, 'Not Access');
-        }
-
+        $this->checkPermission("role.delete");
         $ids = Crypt::decrypt($id);
         $role =  Role::findOrfail($ids);
+        $role->delete();
+        return redirect()->route('role.all')->with('success', 'Role Has delete!');
 
-        $okk =  $role->name;
-
-
-
-
-        if (!is_null($role)) {
-            if ($role->name == "superadmin") {
-                return redirect()->route('role.all')->with('success', 'THis Is Default');
-            } else {
-                $role->delete();
-                return redirect()->route('role.all')->with('success', 'Role Has delete!');
-            }
-        }
     }
 }

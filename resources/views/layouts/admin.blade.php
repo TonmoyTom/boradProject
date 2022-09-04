@@ -156,6 +156,7 @@
   <script src="{{asset('backend/js/settings.js')}}"></script>
   <script src="{{asset('backend/js/todolist.js')}}"></script>
   <script src="{{asset('backend/js/script.js')}}"></script>
+  <script src="//unpkg.com/alpinejs" defer></script>
   @yield('scripts')
   @stack('script')
 
@@ -204,11 +205,6 @@ if (willDelete) {
 });
 });
 </script>
-
-
-
-
-
 
   <!-- End custom js for this page-->
 </body>

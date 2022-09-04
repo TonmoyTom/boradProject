@@ -23,18 +23,13 @@ class FrontendController extends Controller
     {
 
         $backgrounds = Background::with('subjects.boards.qustions.answers')->get();
-
-
-
         return view('welcome', compact('backgrounds'));
     }
 
 
     public function subject($slug)
     {
-
         $backgrounds = Background::with('subjects.boards')->where('slug', $slug)->first();
-
         $subject = $backgrounds->subjects->groupBy(['class', 'groupname']);
 
         // dd($subject);

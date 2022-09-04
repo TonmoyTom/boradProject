@@ -44,7 +44,7 @@ class RoleSeeder extends Seeder
                 'group_name' => 'admin',
                 'permissions' => [
                     // admin Permissions
-                    'uesrs.all',
+                    'users.all',
                     'users.create',
                     'users.store',
                     'users.edit',

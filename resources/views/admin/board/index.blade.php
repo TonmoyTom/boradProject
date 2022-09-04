@@ -24,8 +24,7 @@
                     <tr>
                       <th scope="col">Id</th>
                       <th scope="col">Background</th>
-                      <th scope="col">Name</th>
-                      <th scope="col" >Slug</th>
+                      <th scope="col">Name</th>>
                       <th scope="col" >Subject</th>
                       <th scope="col" >Class</th>
                       <th scope="col" >Year</th>
@@ -45,7 +44,6 @@
                           <th scope="row">{{$loop->index*1}}</th>
                           <td>{{$item->subjects->backgrounds->name}}</td>
                           <td>{{$item->name}}</td>
-                          <td>{{$item->slug}}</td>
                           <td>{{$item->subjects->slug}}</td>
                           <td>{{$upper}}</td>
                           <td>{{$item->year}}</td>
